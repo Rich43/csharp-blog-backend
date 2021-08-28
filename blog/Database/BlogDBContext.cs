@@ -11,8 +11,7 @@ namespace blog.Database {
         private string SqliteConnString { get; }
         private string PostgreSQLConnString { get; }
 
-        public BlogDBContext(IConfiguration configuration)
-        {
+        public BlogDBContext(IConfiguration configuration) {
             Configuration = configuration;
             SqlServerConnString = Configuration["ConnectionStrings:Data:SqlServer"];
             PostgreSQLConnString = Configuration["ConnectionStrings:Data:PostgreSQL"];

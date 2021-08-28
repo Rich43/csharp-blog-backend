@@ -4,6 +4,7 @@ using JsonApiDotNetCore.Resources.Annotations;
 
 namespace blog.dto {
     public sealed class BlogEntry : Identifiable {
+        public override int Id {get; set;}
         [Attr(Capabilities = AttrCapabilities.AllowSort)]
         public DateTime Date { get; set; }
         [Attr]
