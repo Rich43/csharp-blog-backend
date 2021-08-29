@@ -6,16 +6,40 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using blog.dto;
 using blog.Database;
+using Microsoft.Extensions.Configuration;
 
 namespace blog {
     public class Startup {
+        private IConfigurationRoot Config;
 
+        public Startup(IWebHostEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Config = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddScoped<BlogDBContext>();
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "test", Version = "v1"}); });
-            services.AddJsonApi(options => options.Namespace = "api/v1", resources: builder => builder.Add<BlogEntry>("blogEntries"));
+            services.AddJsonApi<BlogDBContext>(opt =>
+            {
+                opt.Namespace = "api/v1";
+                opt.IncludeTotalResourceCount = true;
+            });
+            services.AddDbContext<BlogDBContext>(options =>
+            {
+#if DEBUG
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+#endif
+            });
             services.AddDbContext<BlogDBContext>(options => {
                     #if DEBUG
                         options.EnableSensitiveDataLogging();
