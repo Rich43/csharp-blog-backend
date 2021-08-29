@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 namespace blog.Database {
     public class BlogDBContext : DbContext {
         public DbSet<BlogEntry> BlogEntries { get; set; }
+        public DbSet<User> Users { get; set; }
         private readonly IConfiguration Configuration;
         private string SqlServerConnString { get; }
         private string MysqlConnString { get; }
