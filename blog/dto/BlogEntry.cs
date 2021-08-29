@@ -6,11 +6,11 @@ using JsonApiDotNetCore.Resources.Annotations;
 namespace blog.dto {
     [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public class BlogEntry : Identifiable {
-        [Attr(Capabilities = AttrCapabilities.AllowSort)]
+        [Attr(Capabilities = AttrCapabilities.AllowSort | AttrCapabilities.AllowView)]
         public DateTime Date { get; set; }
         [Attr]
         public string Content { get; set; }
-        [Attr, HasOne]
+        [HasOne]
         public User User { get; set; }
     }
 }
