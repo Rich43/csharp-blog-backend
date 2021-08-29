@@ -1,8 +1,10 @@
 using blog.dto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using JetBrains.Annotations;
 
 namespace blog.Database {
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public class BlogDBContext : DbContext {
         public DbSet<BlogEntry> BlogEntries { get; set; }
         public DbSet<User> Users { get; set; }

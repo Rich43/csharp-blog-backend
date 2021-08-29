@@ -1,7 +1,9 @@
-﻿using JsonApiDotNetCore.Resources;
+﻿using JetBrains.Annotations;
+using JsonApiDotNetCore.Resources;
 using JsonApiDotNetCore.Resources.Annotations;
 
 namespace blog.dto {
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public class User : Identifiable {
         [Attr(Capabilities = AttrCapabilities.AllowSort | AttrCapabilities.AllowFilter)]
         public string Username { get; set; }

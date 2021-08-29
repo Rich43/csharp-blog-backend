@@ -1,9 +1,11 @@
 using System;
+using JetBrains.Annotations;
 using JsonApiDotNetCore.Resources;
 using JsonApiDotNetCore.Resources.Annotations;
 
 namespace blog.dto {
-    public sealed class BlogEntry : Identifiable {
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
+    public class BlogEntry : Identifiable {
         [Attr(Capabilities = AttrCapabilities.AllowSort)]
         public DateTime Date { get; set; }
         [Attr]
