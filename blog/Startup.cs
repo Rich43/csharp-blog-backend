@@ -33,13 +33,6 @@ namespace blog {
                 opt.Namespace = "api/v1";
                 opt.IncludeTotalResourceCount = true;
             });
-            services.AddDbContext<BlogDBContext>(options =>
-            {
-#if DEBUG
-                options.EnableSensitiveDataLogging();
-                options.EnableDetailedErrors();
-#endif
-            });
             services.AddDbContext<BlogDBContext>(options => {
                     #if DEBUG
                         options.EnableSensitiveDataLogging();
