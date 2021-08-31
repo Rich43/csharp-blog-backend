@@ -7,6 +7,11 @@ using Microsoft.OpenApi.Models;
 using blog.dto;
 using blog.Database;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 
 namespace blog {
     public class Startup {
@@ -39,12 +44,40 @@ namespace blog {
                         options.EnableDetailedErrors();
                     #endif
                 });
+            services.AddDefaultIdentity<User>()
+                .AddUserStore<BlogDBContext>()  
+                .AddDefaultTokenProviders();
+            var identityUrl = Config.GetValue<string>("IdentityUrl");
+            var callBackUrl = Config.GetValue<string>("CallBackUrl");
+            var sessionCookieLifetime = Config.GetValue("SessionCookieLifetimeMinutes", 60);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromMinutes(sessionCookieLifetime))
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.Authority = identityUrl.ToString();
+                options.SignedOutRedirectUri = callBackUrl.ToString();
+                options.ClientId = "mvc";
+                options.ClientSecret = "secret";
+                options.ResponseType = "code id_token";
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.RequireHttpsMetadata = false;
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             using (IServiceScope scope = app.ApplicationServices.CreateScope()) {
                 var appDbContext = scope.ServiceProvider.GetRequiredService<BlogDBContext>();
+                appDbContext.Database.Migrate();
                 appDbContext.Database.EnsureCreated();
                 BlogEntry entity = new BlogEntry() {
                     Content = "Hello World",
@@ -66,6 +99,8 @@ namespace blog {
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseRouting();
             app.UseJsonApi();
             app.UseAuthorization();

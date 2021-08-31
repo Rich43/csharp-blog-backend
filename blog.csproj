@@ -15,5 +15,15 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7"/>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.1"/>
     <PackageReference Include="JetBrains.Annotations" Version="2021.2.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="5.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.9"/>
   </ItemGroup>
 </Project>

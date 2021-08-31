@@ -3,8 +3,10 @@ using JsonApiDotNetCore.Controllers;
 using JsonApiDotNetCore.Services;
 using Microsoft.Extensions.Logging;
 using blog.dto;
+using Microsoft.AspNetCore.Mvc;
 
 namespace blog.Controllers {
+    [RequireHttps]
     public sealed class BlogController : JsonApiController<BlogEntry> {
         private readonly ILogger<BlogController> _logger;
 
